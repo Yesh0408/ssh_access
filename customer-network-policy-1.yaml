@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: customer-network-policy-1
+  namespace: customer-accounts
+spec:
+  podSelector:
+    matchLabels:
+      app: ssh-gateway
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 192.168.79.0/32
+    ports:
+    - protocol: TCP
+      port: 22
+

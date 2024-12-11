@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssh-gateway-customer1
+  namespace: customer-accounts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ssh-gateway
+  template:
+    metadata:
+      labels:
+        app: ssh-gateway
+    spec:
+      containers:
+      - name: ssh-gateway
+        image: 976679223297.dkr.ecr.us-east-2.amazonaws.com/ssh-gateway:latest
+        ports:
+        - containerPort: 22
+        volumeMounts:
+        - mountPath: "/customer-data"
+          name: customer-data
+      volumes:
+      - name: customer-data
+        persistentVolumeClaim:
+          claimName: customer-pvc-1
+
